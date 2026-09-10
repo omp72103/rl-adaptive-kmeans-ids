@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+.DS_Store
+.ipynb_checkpoints/
+
+# results/ IS tracked deliberately: it holds the real, already-executed
+# training run this README's "Real results" section quotes and links to
+# (history.json, q_agent.json, the three PNGs) -- re-running train.py
+# will just overwrite these with a fresh (similarly-shaped) run.
