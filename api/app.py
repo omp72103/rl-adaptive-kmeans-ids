@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
 from src.pipeline import run_manual_clustering, run_rl_training
@@ -59,6 +59,13 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
 if os.path.isdir(FRONTEND_DIR):
     app.mount("/app", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
+
+
+@app.get("/")
+def root_redirect():
+    """Redirect the bare root to the dashboard so the preview lands on
+    the app instead of a 404."""
+    return RedirectResponse(url="/app/")
 
 # In-memory job store for async RL training runs (real background threads,
 # not fake progress bars). Fine for a single-process demo/dev server; a
